@@ -3,45 +3,45 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Группы</title>
+    <title>Посещаемость</title>
     <style>
         /* Стили для таблицы */
         table {
-            margin: 0 auto; /* Центрирование таблицы по горизонтали */
+            margin: 0 auto;
             border-collapse: collapse;
-            width: 80%; /* Ширина таблицы */
-            border-radius: 20px; /* Закругленные края таблицы */
-            overflow: hidden; /* Предотвращение выхода за грани таблицы */
-            margin-top: 20px; /* Отступ сверху для центрирования */
+            width: 80%;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 20px;
         }
 
         th, td {
             padding: 10px;
             text-align: left;
-            border-bottom: 1px solid white; /* Горизонтальные линии */
-            color: white; /* Белый цвет текста */
+            border-bottom: 1px solid white;
+            color: white;
         }
 
         th {
-            background-color: #29244d; /* Цвет фона заголовков */
+            background-color: #29244d;
         }
 
         tr:nth-child(even) {
-            background-color: #210711; /* Цвет фона четных строк */
+            background-color: #210711;
         }
 
         tr:nth-child(odd) {
-            background-color: #210711; /* Цвет фона нечетных строк */
+            background-color: #210711;
         }
 
-        /* Стили для header остаются без изменений */
+
         header {
             background: linear-gradient(to right, #29244d, #210711);
             text-align: center;
             padding: 20px;
             border-radius: 20px;
             color: white;
-            margin-top: 0; /* Убираем отступ сверху */
+            margin-top: 0;
         }
 
         header button {
@@ -77,10 +77,10 @@
 <table>
     <thead>
     <tr>
-        <th>Tag</th> <!-- Добавляем заголовок столбца "Tag" -->
-        <th>Student Name</th>
-        <th>Skip Count</th>
-        <th>Actions</th>
+        <th>Группа</th>
+        <th>ФИО</th>
+        <th>Кол-во пропусков</th>
+        <th>Добавить пропуск</th>
     </tr>
     </thead>
     <tbody>

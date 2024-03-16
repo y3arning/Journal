@@ -46,7 +46,7 @@
             border: none;
             border-radius: 20px;
             transition: 0.3s;
-            margin-right: 40px;
+            margin-right: 10px;
         }
 
         input[type="submit"]:hover {
@@ -73,14 +73,14 @@
 </header>
 <form th:action="@{/login}" method="post">
     <div>
-        <input type="text" name="username" placeholder="Username">
+        <input type="text" name="username" placeholder="Логин">
     </div>
     <div>
-        <input type="password" name="password" placeholder="Password">
+        <input type="password" name="password" placeholder="Пароль">
     </div>
     <div>
-        <input type="submit" value="Sign In">
-        <a class="register-link" href="/registration">Register</a>
+        <input type="submit" value="Войти">
+        <a class="register-link" href="/registration">Регистрация</a>
     </div>
 </form>
 </body>
