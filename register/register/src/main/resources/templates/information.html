@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -14,7 +14,26 @@
             margin-top: 0; /* Убираем отступ сверху */
         }
 
+        form {
+            background: linear-gradient(to right, #29244d, #210711);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            max-width: 300px;
+            width: 100%;
+            margin: 0 auto; /* Центрируем по горизонтали */
+            padding: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 5vh; /* Занимаем всю высоту экрана */
+            flex-direction: row; /* Выравниваем элементы по вертикали */
+            }
+
+
+
         header button {
+
             font-weight: 700;
             padding: 10px 20px;
             background: transparent;
@@ -31,6 +50,33 @@
             color: white;
         }
 
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px -10px;
+            border: none;
+            border-radius: 10px;
+        }
+
+        input[type="text"]::placeholder {
+            text-align: center;
+        }
+
+        input[type="submit"] {
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            transition: 0.3s;
+            margin-right: auto;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #422e39;
+        }
+
         body {
             background: #422e39;
             margin: 0;
@@ -43,5 +89,13 @@
 <header>
     <button onclick="document.location='/'">Домашняя страница</button>
 </header>
+<form action="/stud-info" method="post" th:action="@{/stud-info}">
+    <div>
+        <input type="text" name="tag" placeholder="Группа">
+    </div>
+    <div>
+        <input type="submit" value="Посещаемость">
+    </div>
+</form>
 </body>
 </html>

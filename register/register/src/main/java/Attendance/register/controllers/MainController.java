@@ -17,10 +17,7 @@ public class MainController {
         return "login";
     }
 
-    @GetMapping("/information")
-    public String information() {
-        return "information";
-    }
+
 
 
 

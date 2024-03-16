@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Группы</title>
+    <style>
+        /* Стили для таблицы */
+        table {
+            margin: 0 auto; /* Центрирование таблицы по горизонтали */
+            border-collapse: collapse;
+            width: 80%; /* Ширина таблицы */
+            border-radius: 20px; /* Закругленные края таблицы */
+            overflow: hidden; /* Предотвращение выхода за грани таблицы */
+            margin-top: 20px; /* Отступ сверху для центрирования */
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid white; /* Горизонтальные линии */
+            color: white; /* Белый цвет текста */
+        }
+
+        th {
+            background-color: #29244d; /* Цвет фона заголовков */
+        }
+
+        tr:nth-child(even) {
+            background-color: #210711; /* Цвет фона четных строк */
+        }
+
+        tr:nth-child(odd) {
+            background-color: #210711; /* Цвет фона нечетных строк */
+        }
+
+        /* Стили для header остаются без изменений */
+        header {
+            background: linear-gradient(to right, #29244d, #210711);
+            text-align: center;
+            padding: 20px;
+            border-radius: 20px;
+            color: white;
+            margin-top: 0; /* Убираем отступ сверху */
+        }
+
+        header button {
+            font-weight: 700;
+            padding: 10px 20px;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: 0.3s;
+            border-radius: 20px;
+        }
+
+        header button:hover {
+            background-color: #422e39;
+            color: white;
+        }
+
+        body {
+            background: #422e39;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <button onclick="document.location='/'">Домашняя страница</button>
+</header>
+<table>
+    <thead>
+    <tr>
+        <th>Student Name</th>
+        <th>Skip Count</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entry : ${attendanceData}">
+        <td th:text="${entry.key}"></td>
+        <td th:text="${entry.value}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
