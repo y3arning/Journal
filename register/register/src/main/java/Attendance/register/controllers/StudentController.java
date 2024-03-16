@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
 import java.util.Map;
 
 
@@ -56,18 +55,31 @@ public class StudentController {
     }
 
 
+    @GetMapping("/attendance")
+    public String attendance() {
+        return "attendance";
+    }
+
 
     @PostMapping("/stud-info")
     public String studInfo(@RequestParam String tag, Model model){
         AttendanceDAO attendanceDAO = new AttendanceDAO();
         Map<String, Integer> attendanceData = attendanceDAO.getAttendanceByTag(tag);
         model.addAttribute("attendanceData", attendanceData);
-        System.out.println(attendanceData);
+        model.addAttribute("tag", tag);
         return "attendance";
     }
 
-    @GetMapping("/attendance")
-    public String attendance() {
+    @PostMapping("/insertskip")
+    public String insertSkipCount(@RequestParam String studentName, Model model, String tag) {
+        Student student = studentRepository.findByUsername(studentName);
+        AttendanceDAO attendanceDAO = new AttendanceDAO();
+        if (student != null) {
+            attendanceDAO.incrementSkipCountByName(studentName);
+            Map<String, Integer> attendanceData = attendanceDAO.getAttendanceByTag(tag);
+            model.addAttribute("attendanceData", attendanceData);
+            model.addAttribute("tag", tag);
+        }
         return "attendance";
     }
 

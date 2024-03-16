@@ -34,4 +34,16 @@ public class AttendanceDAO {
         }
         return att;
     }
+
+    public void incrementSkipCountByName(String name) {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            String sql = "UPDATE students SET skip = skip + 1 WHERE username = ? ";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, name);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -73,19 +73,31 @@
 <header>
     <button onclick="document.location='/'">Домашняя страница</button>
 </header>
+
 <table>
     <thead>
     <tr>
+        <th>Tag</th> <!-- Добавляем заголовок столбца "Tag" -->
         <th>Student Name</th>
         <th>Skip Count</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="entry : ${attendanceData}">
+        <td th:text="${tag}"></td>
         <td th:text="${entry.key}"></td>
-        <td th:text="${entry.value}"></td>
+        <td th:id="${entry.key + '_count'}" th:text="${entry.value}"></td>
+        <td>
+            <form action="/insertskip" method="post" th:action="@{/insertskip}">
+                <input type="hidden" name="studentName" th:value="${entry.key}"/>
+                <input type="hidden" name="tag" th:value="${tag}"/>
+                <input type="submit" value="+">
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>
