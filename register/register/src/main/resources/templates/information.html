@@ -1,15 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Группы</title>
     <style>
+        header {
+            background: linear-gradient(to right, #29244d, #210711);
+            text-align: center;
+            padding: 20px;
+            border-radius: 20px;
+            color: white;
+            margin-top: 0; /* Убираем отступ сверху */
+        }
+
+        header button {
+            font-weight: 700;
+            padding: 10px 20px;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: 0.3s;
+            border-radius: 20px;
+        }
+
+        header button:hover {
+            background-color: #422e39;
+            color: white;
+        }
+
         body {
             background: #422e39;
+            margin: 0;
+            font-family: Arial, sans-serif;
         }
     </style>
 </head>
-<body>
 
+<body>
+<header>
+    <button onclick="document.location='/'">Домашняя страница</button>
+</header>
 </body>
 </html>
