@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 import java.util.Collections;
-import java.util.Map;
+
 
 @Controller
 public class RegistrationController {
@@ -24,11 +24,17 @@ public class RegistrationController {
     }
 
     @PostMapping("/reg-form")
-    public String addUser(User user, Map<String, Object> model) {
+    public String addUser(User user) {
+
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
         if (userFromDb != null) {
-            model.put("message", "User exists!");
+
+            return "registration";
+        }
+
+        if(user.getUsername().isEmpty() || user.getPassword().isEmpty()){
+
             return "registration";
         }
 
@@ -38,4 +44,6 @@ public class RegistrationController {
 
         return "redirect:/";
     }
+
+
 }
