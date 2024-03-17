@@ -46,4 +46,17 @@ public class AttendanceDAO {
             e.printStackTrace();
         }
     }
+
+    public void decrementSkipCountByName(String name) {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            String sql = "UPDATE students SET skip = CASE WHEN skip > 0 THEN skip - 1 ELSE skip END WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, name);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -4,6 +4,8 @@ import Attendance.register.studentdata.AttendanceDAO;
 import Attendance.register.studentdata.Student;
 import Attendance.register.studentdata.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,6 +53,9 @@ public class StudentController {
 
     @GetMapping("/information")
     public String information() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        System.out.println(username);
         return "information";
     }
 
@@ -76,6 +81,19 @@ public class StudentController {
         AttendanceDAO attendanceDAO = new AttendanceDAO();
         if (student != null) {
             attendanceDAO.incrementSkipCountByName(studentName);
+            Map<String, Integer> attendanceData = attendanceDAO.getAttendanceByTag(tag);
+            model.addAttribute("attendanceData", attendanceData);
+            model.addAttribute("tag", tag);
+        }
+        return "attendance";
+    }
+
+    @PostMapping("/deleteskip")
+    public String deleteSkipCount(@RequestParam String studentName, Model model, String tag){
+        Student student = studentRepository.findByUsername(studentName);
+        AttendanceDAO attendanceDAO = new AttendanceDAO();
+        if (student != null) {
+            attendanceDAO.decrementSkipCountByName(studentName);
             Map<String, Integer> attendanceData = attendanceDAO.getAttendanceByTag(tag);
             model.addAttribute("attendanceData", attendanceData);
             model.addAttribute("tag", tag);
