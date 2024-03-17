@@ -66,6 +66,21 @@
             margin: 0;
             font-family: Arial, sans-serif;
         }
+        .plus-button {
+          background-color: red;
+          color: white;
+          border: none;
+          padding: 5px 10px;
+          border-radius: 5px;
+        }
+
+        .minus-button {
+          background-color: green;
+          color: white;
+          border: none;
+          padding: 5px 10px;
+          border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -89,16 +104,18 @@
         <td th:text="${entry.key}"></td>
         <td th:id="${entry.key + '_count'}" th:text="${entry.value}"></td>
         <td>
-            <form action="/deleteskip" method="post" th:action="@{/deleteskip}" style="display: inline-block;">
+
+            <form action="/deletetskip" method="post" th:action="@{/deleteskip}" style="display: inline-block; vertical-align: middle;">
                 <input type="hidden" name="studentName" th:value="${entry.key}"/>
                 <input type="hidden" name="tag" th:value="${tag}"/>
-                <input type="submit" value="-">
+                <input type="submit" value="-" class="minus-button">
             </form>
-            <form action="/insertskip" method="post" th:action="@{/insertskip}" style="display: inline-block;">
+            <form action="/insertskip" method="post" th:action="@{/insertskip}" style="display: inline-block; vertical-align: middle;">
                 <input type="hidden" name="studentName" th:value="${entry.key}"/>
                 <input type="hidden" name="tag" th:value="${tag}"/>
-                <input type="submit" value="+">
+                <input type="submit" value="+" class="plus-button">
             </form>
+
         </td>
     </tr>
     </tbody>
