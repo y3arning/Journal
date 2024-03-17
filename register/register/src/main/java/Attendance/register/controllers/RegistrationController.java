@@ -1,6 +1,5 @@
 package Attendance.register.controllers;
 
-import Attendance.register.accessingdata.Role;
 import Attendance.register.accessingdata.User;
 import Attendance.register.accessingdata.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +28,15 @@ public class RegistrationController {
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
         if (userFromDb != null) {
-
             return "registration";
         }
 
-        if(user.getUsername().isEmpty() || user.getPassword().isEmpty()){
-
+        if(user.getUsername() == null || user.getPassword() == null){
             return "registration";
         }
 
         user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+        user.setRole("user");
         userRepository.save(user);
 
         return "redirect:/";

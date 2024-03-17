@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
+import java.util.Objects;
 
 
 @Controller
@@ -26,27 +27,22 @@ public class StudentController {
     }
 
     @PostMapping("/st-add-form")
-    public String addStudent(Student student, @RequestParam String tag, @RequestParam String name) {
+    public String addStudent(Student student, @RequestParam String tag, @RequestParam String username) {
+
+        AttendanceDAO attendanceDAO = new AttendanceDAO();
+        String studentTag = attendanceDAO.findStudent(username);
+
+        if (Objects.equals(studentTag, tag)) {
+            System.out.println("exist");
+            return "student-add";
+        }
+
+        if(student.getUsername() == null || student.getTag() == null){
+            return "student-add";
+        }
 
         student.setSkip(0);
-        student.setTag(tag);
-        student.setUsername(name);
         studentRepository.save(student);
-
-//        Student studentFromDb = studentRepository.findByUsername(student.getUsername());
-//
-//        if (studentFromDb != null) {
-//
-//            return "student-add";
-//        }
-//
-//        if(student.getUsername().isEmpty() || student.getTag().isEmpty()){
-//
-//            return "student-add";
-//        }
-//
-//        student.setSkip(0);
-//        studentRepository.save(student);
 
         return "redirect:/student-add";
     }
@@ -54,8 +50,7 @@ public class StudentController {
     @GetMapping("/information")
     public String information() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        System.out.println(username);
+        System.out.println(authentication.getName());
         return "information";
     }
 
@@ -76,7 +71,7 @@ public class StudentController {
     }
 
     @PostMapping("/insertskip")
-    public String insertSkipCount(@RequestParam String studentName, Model model, String tag) {
+    public String insertSkipCount(@RequestParam String studentName, Model model, String tag) { //todo 2 students with equals names in diff groups
         Student student = studentRepository.findByUsername(studentName);
         AttendanceDAO attendanceDAO = new AttendanceDAO();
         if (student != null) {
@@ -89,7 +84,7 @@ public class StudentController {
     }
 
     @PostMapping("/deleteskip")
-    public String deleteSkipCount(@RequestParam String studentName, Model model, String tag){
+    public String deleteSkipCount(@RequestParam String studentName, Model model, String tag){ //todo 2 students with equals names in diff groups
         Student student = studentRepository.findByUsername(studentName);
         AttendanceDAO attendanceDAO = new AttendanceDAO();
         if (student != null) {

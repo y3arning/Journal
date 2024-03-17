@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class AttendanceDAO {
     private static final String URL = "jdbc:postgresql://localhost:5432/register";
@@ -14,7 +14,7 @@ public class AttendanceDAO {
     private static final String PASSWORD = "123";
 
     public Map<String, Integer> getAttendanceByTag(String tag) {
-        Map<String, Integer> att = new HashMap<>();
+        Map<String, Integer> att = new TreeMap<>();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             String sql = "SELECT username, skip AS attendance_count " +
                     "FROM students " +
@@ -34,6 +34,7 @@ public class AttendanceDAO {
         }
         return att;
     }
+
 
     public void incrementSkipCountByName(String name) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
@@ -57,6 +58,24 @@ public class AttendanceDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public String findStudent(String username) {
+        String tag = "";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            String sql = "SELECT tag FROM students WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        tag = resultSet.getString("tag");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tag;
     }
 
 }
