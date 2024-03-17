@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <title>Посещаемость</title>
     <style>
-        /* Стили для таблицы */
         table {
             margin: 0 auto;
             border-collapse: collapse;
@@ -14,27 +12,21 @@
             overflow: hidden;
             margin-top: 20px;
         }
-
         th, td {
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid white;
             color: white;
         }
-
         th {
             background-color: #29244d;
         }
-
         tr:nth-child(even) {
             background-color: #210711;
         }
-
         tr:nth-child(odd) {
             background-color: #210711;
         }
-
-
         header {
             background: linear-gradient(to right, #29244d, #210711);
             text-align: center;
@@ -43,7 +35,6 @@
             color: white;
             margin-top: 0;
         }
-
         header button {
             font-weight: 700;
             padding: 10px 20px;
@@ -55,12 +46,10 @@
             transition: 0.3s;
             border-radius: 20px;
         }
-
         header button:hover {
             background-color: #422e39;
             color: white;
         }
-
         body {
             background: #422e39;
             margin: 0;
@@ -73,7 +62,6 @@
           padding: 5px 10px;
           border-radius: 5px;
         }
-
         .minus-button {
           background-color: green;
           color: white;
@@ -83,12 +71,10 @@
         }
     </style>
 </head>
-
 <body>
 <header>
     <button onclick="document.location='/'">Домашняя страница</button>
 </header>
-
 <table>
     <thead>
     <tr>
@@ -104,7 +90,6 @@
         <td th:text="${entry.key}"></td>
         <td th:id="${entry.key + '_count'}" th:text="${entry.value}"></td>
         <td>
-
             <form action="/deletetskip" method="post" th:action="@{/deleteskip}" style="display: inline-block; vertical-align: middle;">
                 <input type="hidden" name="studentName" th:value="${entry.key}"/>
                 <input type="hidden" name="tag" th:value="${tag}"/>
@@ -115,11 +100,9 @@
                 <input type="hidden" name="tag" th:value="${tag}"/>
                 <input type="submit" value="+" class="plus-button">
             </form>
-
         </td>
     </tr>
     </tbody>
 </table>
-
 </body>
 </html>

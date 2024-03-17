@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-
 <head>
     <meta charset="UTF-8">
     <title>Авторизация</title>
     <style>
-
         body {
             background: #422e39;
             display: flex;
@@ -14,7 +12,6 @@
             height: 100vh;
             margin: 0;
         }
-
         form {
             background: linear-gradient(to right, #29244d, #210711);;
             border-radius: 20px;
@@ -23,7 +20,6 @@
             max-width: 300px;
             width: 100%;
         }
-
         input[type="text"],
         input[type="password"] {
             width: 100%;
@@ -32,12 +28,10 @@
             border: none;
             border-radius: 10px;
         }
-
         input[type="text"]::placeholder,
         input[type="password"]::placeholder {
             text-align: center;
         }
-
         input[type="submit"] {
             cursor: pointer;
             padding: 10px 20px;
@@ -48,7 +42,6 @@
             transition: 0.3s;
             margin-right: 10px;
         }
-
         input[type="submit"]:hover {
             background-color: #422e39;
         }
@@ -59,17 +52,13 @@
             transition: 0.3s;
             margin-right: -100px;
         }
-
-
         .register-link:hover {
             color: #d3d3d3;
         }
     </style>
 </head>
-
 <body>
 <header>
-
 </header>
 <form th:action="@{/login}" method="post">
     <div>
@@ -84,5 +73,4 @@
     </div>
 </form>
 </body>
-
 </html>

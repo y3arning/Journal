@@ -12,7 +12,6 @@
             height: 100vh;
             margin: 0;
         }
-
         form {
             background: linear-gradient(to right, #29244d, #210711);;
             border-radius: 20px;
@@ -21,7 +20,6 @@
             max-width: 300px;
             width: 100%;
         }
-
         input[type="text"],
         input[type="password"] {
             width: 100%;
@@ -30,12 +28,10 @@
             border: none;
             border-radius: 10px;
         }
-
         input[type="text"]::placeholder,
         input[type="password"]::placeholder {
             text-align: center;
         }
-
         input[type="submit"] {
             cursor: pointer;
             padding: 10px 20px;
@@ -46,15 +42,12 @@
             transition: 0.3s;
             margin-right: auto;
         }
-
         input[type="submit"]:hover {
             background-color: #422e39;
         }
-
     </style>
 </head>
 <body>
-
 <form action="/reg-form" method="post" th:action="@{/reg-form}">
     <div>
         <input type="text" name="username" placeholder="Логин">
