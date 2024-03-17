@@ -1,6 +1,5 @@
 package Attendance.register;
 
-import Attendance.register.studentdata.AttendanceDAO;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
