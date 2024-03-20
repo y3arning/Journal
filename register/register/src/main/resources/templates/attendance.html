@@ -79,25 +79,29 @@
     <thead>
     <tr>
         <th>Группа</th>
+        <th>Предмет</th>
         <th>ФИО</th>
         <th>Кол-во пропусков</th>
         <th>Удалить/Добавить пропуск</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="entry : ${attendanceData}">
+    <tr th:each="entry : ${attendanceDataStudent}">
         <td th:text="${tag}"></td>
+        <td th:text="${subject}"></td>
         <td th:text="${entry.key}"></td>
         <td th:id="${entry.key + '_count'}" th:text="${entry.value}"></td>
         <td>
             <form action="/deletetskip" method="post" th:action="@{/deleteskip}" style="display: inline-block; vertical-align: middle;">
                 <input type="hidden" name="studentName" th:value="${entry.key}"/>
                 <input type="hidden" name="tag" th:value="${tag}"/>
+                <input type="hidden" name="subject" th:value="${subject}"/>
                 <input type="submit" value="-" class="minus-button">
             </form>
             <form action="/insertskip" method="post" th:action="@{/insertskip}" style="display: inline-block; vertical-align: middle;">
                 <input type="hidden" name="studentName" th:value="${entry.key}"/>
                 <input type="hidden" name="tag" th:value="${tag}"/>
+                <input type="hidden" name="subject" th:value="${subject}"/>
                 <input type="submit" value="+" class="plus-button">
             </form>
         </td>

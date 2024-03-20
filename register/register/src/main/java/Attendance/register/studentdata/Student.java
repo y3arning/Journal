@@ -1,9 +1,11 @@
 package Attendance.register.studentdata;
 
 
+import Attendance.register.subjectdata.Subject;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -17,8 +19,11 @@ public class Student {
     private UUID id;
     private String tag;
     private String username;
-    private int skip;
+//    private int skip;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id")
+    private List<Subject> subjects;
 
     public UUID getId() {
         return id;
@@ -44,11 +49,19 @@ public class Student {
         this.username = username;
     }
 
-    public int getSkip() {
-        return skip;
+    public List<Subject> getSubjects() {
+        return subjects;
     }
 
-    public void setSkip(int skip) {
-        this.skip = skip;
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
     }
+
+    //    public int getSkip() {
+//        return skip;
+//    }
+//
+//    public void setSkip(int skip) {
+//        this.skip = skip;
+//    }
 }

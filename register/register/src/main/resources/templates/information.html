@@ -24,8 +24,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 5vh;
-            flex-direction: row;
+            height: 15vh;
+            flex-direction: column;
         }
         header button {
             font-weight: 700;
@@ -79,6 +79,9 @@
 <form action="/stud-info" method="post" th:action="@{/stud-info}">
     <div>
         <input type="text" name="tag" placeholder="Группа">
+    </div>
+    <div>
+        <input type="text" name="subject" placeholder="Предмет">
     </div>
     <div>
         <input type="submit" value="Посещаемость">

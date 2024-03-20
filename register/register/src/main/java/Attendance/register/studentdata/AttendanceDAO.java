@@ -7,18 +7,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 
 public class AttendanceDAO {
     private static final String URL = "jdbc:postgresql://localhost:5432/register";
     private static final String USER = "postgres";
     private static final String PASSWORD = "123";
 
-    public Map<String, Integer> getAttendanceByTag(String tag) {
+    public Map<String, Integer> getAttendanceByTag(String tag, String subjectName) {
         Map<String, Integer> att = new TreeMap<>();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            String sql = "SELECT username, skip AS attendance_count " +
-                    "FROM students " +
-                    "WHERE tag = ? ";
+            String sql = "SELECT s.username, sub." + subjectName + " AS attendance_count " +
+                    "FROM students s " +
+                    "INNER JOIN subject sub ON s.id = sub.student_id " +
+                    "WHERE s.tag = ? AND sub." + subjectName + " IS NOT NULL";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, tag);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -36,24 +38,47 @@ public class AttendanceDAO {
     }
 
 
-    public void incrementSkipCountByName(String name) {
+    public void incrementSkipCount(String studentName, String subject) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            String sql = "UPDATE students SET skip = skip + 1 WHERE username = ? ";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, name);
-                preparedStatement.executeUpdate();
+            String studentIdSql = "SELECT id FROM students WHERE username = ?";
+            try (PreparedStatement studentIdStatement = connection.prepareStatement(studentIdSql)) {
+                studentIdStatement.setString(1, studentName);
+                try (ResultSet resultSet = studentIdStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        UUID studentId = resultSet.getObject("id", UUID.class);
+
+                        String updateSql = "UPDATE subject SET " + subject + " = " + subject + " + 1 WHERE student_id = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+                            updateStatement.setObject(1, studentId);
+                            updateStatement.executeUpdate();
+                        }
+                    }
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void decrementSkipCountByName(String name) {
+
+
+    public void decrementSkipCount(String studentName, String subject) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            String sql = "UPDATE students SET skip = CASE WHEN skip > 0 THEN skip - 1 ELSE skip END WHERE username = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, name);
-                preparedStatement.executeUpdate();
+            String studentIdSql = "SELECT id FROM students WHERE username = ?";
+            try (PreparedStatement studentIdStatement = connection.prepareStatement(studentIdSql)) {
+                studentIdStatement.setString(1, studentName);
+                try (ResultSet resultSet = studentIdStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        UUID studentId = resultSet.getObject("id", UUID.class);
+
+                        String updateSql = "UPDATE subject SET " + subject + " = CASE WHEN " + subject + " > 0 THEN "
+                                + subject + " - 1 ELSE " + subject + " END WHERE student_id = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+                            updateStatement.setObject(1, studentId);
+                            updateStatement.executeUpdate();
+                        }
+                    }
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,5 +102,7 @@ public class AttendanceDAO {
         }
         return tag;
     }
+
+
 
 }
