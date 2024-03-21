@@ -2,7 +2,6 @@ package Attendance.register.accessingdata;
 
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
-import java.util.Set;
 import java.util.UUID;
 
 
@@ -56,8 +55,6 @@ public class User {
         return role;
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
+    public void setRole(String role) {this.role = role;}
 }
 

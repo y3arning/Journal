@@ -68,14 +68,14 @@
 <body>
 <header>
     <div class="buttons-container">
-        <button onclick="document.location='/login'">Авторизация</button>
-        <button onclick="document.location='/information'">Информация</button>
+<!--        <button onclick="document.location='/login'">Авторизация</button>-->
+        <button onclick="document.location='/information'">Посещаемость</button>
         <button onclick="document.location='/student-add'">Добавить студента</button>
     </div>
 
     <div class="logout-container">
         <form th:action="@{/logout}" method="post">
-            <button type="submit">Sign Out</button>
+            <button type="submit">Выйти</button>
         </form>
     </div>
 </header>

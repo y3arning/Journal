@@ -10,9 +10,21 @@ import java.util.TreeMap;
 import java.util.UUID;
 
 public class AttendanceDAO {
-    private static final String URL = "jdbc:postgresql://localhost:5432/register";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "123";
+    private static String URL;
+    private static String USER;
+    private static String PASSWORD;
+
+    public static void setURL(String URL) {
+        AttendanceDAO.URL = URL;
+    }
+
+    public static void setUSER(String USER) {
+        AttendanceDAO.USER = USER;
+    }
+
+    public static void setPASSWORD(String PASSWORD) {
+        AttendanceDAO.PASSWORD = PASSWORD;
+    }
 
     public Map<String, Integer> getAttendanceByTag(String tag, String subjectName) {
         Map<String, Integer> att = new TreeMap<>();
