@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -27,23 +26,26 @@ public class StudentController {
     private StudentRepository studentRepository;
     @Autowired
     private SubjectRepository subjectRepository;
+
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     @GetMapping("/student-add")
     public String student(){
         return "student-add";
     }
 
-    @PostMapping("/st-add-form")
-    public String addStudent(Student student, @RequestParam String tag, @RequestParam String username) {
+    @PostMapping("/st-add-form") //todo обработать ифы
+    public String addStudent(Student student) {
 
         AttendanceDAO attendanceDAO = new AttendanceDAO();
-        String studentTag = attendanceDAO.findStudent(username);
+        String studentTag = attendanceDAO.findStudent(student.getUsername());
 
-        if (Objects.equals(studentTag, tag)) {
+        if (Objects.equals(studentTag, student.getTag())) {
             System.out.println("exist");
             return "student-add";
         }
 
-        if(student.getUsername() == null || student.getTag() == null){
+        if(student.getUsername().isEmpty() || student.getTag().isEmpty()){
+            System.out.println("empty");
             return "student-add";
         }
 
@@ -62,8 +64,6 @@ public class StudentController {
 
     @GetMapping("/information")
     public String information() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getName());
         return "information";
     }
 

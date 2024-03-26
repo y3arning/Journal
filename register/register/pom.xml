@@ -34,6 +34,11 @@
 			<optional>true</optional>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+		</dependency>
+
 		<!-- DataBase support -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

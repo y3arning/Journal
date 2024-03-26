@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StaticMapHolder {
-    static private Map<String, String> map = new HashMap<>();
+    static private final Map<String, String> map = new HashMap<>();
 
     public static void mapInsert(){
         map.put("Математика", "math");

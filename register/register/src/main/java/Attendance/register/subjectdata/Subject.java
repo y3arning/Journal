@@ -1,7 +1,5 @@
 package Attendance.register.subjectdata;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import javax.persistence.Table;
 import java.util.UUID;

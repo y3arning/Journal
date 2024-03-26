@@ -19,7 +19,6 @@ public class Student {
     private UUID id;
     private String tag;
     private String username;
-//    private int skip;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id")

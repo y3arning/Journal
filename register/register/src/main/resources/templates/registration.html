@@ -13,12 +13,13 @@
             margin: 0;
         }
         form {
-            background: linear-gradient(to right, #29244d, #210711);;
+            background: linear-gradient(to right, #29244d, #210711);
             border-radius: 20px;
             padding: 20px;
             text-align: center;
             max-width: 300px;
             width: 100%;
+            position: relative;
         }
         input[type="text"],
         input[type="password"] {
@@ -48,6 +49,25 @@
         input[type="submit"]:hover {
             background-color: #422e39;
         }
+        .error-message {
+            color: red;
+            font-size: 20px;
+            animation: shake 0.5s;
+            margin-top: 10px;
+            position: absolute;
+            bottom: -70px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translateX(5px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+        }
     </style>
 </head>
 <body>
@@ -61,6 +81,20 @@
     <div>
         <input type="submit" value="Зарегистрироваться">
     </div>
+    <div th:if="${error_login}" class="error-message">
+        <p th:text="${error_login}"></p>
+    </div>
+    <div th:if="${error_null}" class="error-message">
+        <p th:text="${error_null}"></p>
+    </div>
 </form>
+<script>
+    setTimeout(function() {
+        var errorMessage = document.querySelector('.error-message');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+    }, 2000);
+</script>
 </body>
 </html>
