@@ -25,12 +25,12 @@ public class RegistrationController {
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
         if (userFromDb != null) {
-            model.addAttribute("error_login","Пользователь с таким именем уже существет.");
+            model.addAttribute("error_login", "Пользователь с таким именем уже существет.");
             return "registration";
         }
 
-        if(user.getUsername().isEmpty() || user.getPassword().isEmpty()){
-            model.addAttribute("error_null","Поля логин и пароль должны быть заполнены");
+        if (user.getUsername().isEmpty() || user.getPassword().isEmpty()) {
+            model.addAttribute("error_null", "Поля логин и пароль должны быть заполнены");
             return "registration";
         }
 
@@ -42,6 +42,5 @@ public class RegistrationController {
 
         return "redirect:/";
     }
-
 
 }

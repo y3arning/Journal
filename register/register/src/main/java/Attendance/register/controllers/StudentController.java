@@ -28,8 +28,9 @@ public class StudentController {
     private SubjectRepository subjectRepository;
 
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
     @GetMapping("/student-add")
-    public String student(){
+    public String student() {
         return "student-add";
     }
 
@@ -37,14 +38,13 @@ public class StudentController {
     public String addStudent(Student student, Model model) {
 
         AttendanceDAO attendanceDAO = new AttendanceDAO();
-        String studentTag = attendanceDAO.findStudent(student.getUsername());
-
+        String studentTag = attendanceDAO.findStudent(student.getUsername(), student.getTag());
         if (!studentTag.isEmpty() && Objects.equals(studentTag, student.getTag())) {
             model.addAttribute("error_student", "Даннный студент уже добавлен.");
             return "student-add";
         }
 
-        if(student.getUsername().isEmpty() || student.getTag().isEmpty()){
+        if (student.getUsername().isEmpty() || student.getTag().isEmpty()) {
             model.addAttribute("error_null", "Поля группа и ФИО должны быть заполнены.");
             return "student-add";
         }
@@ -76,7 +76,7 @@ public class StudentController {
 
 
     @PostMapping("/stud-info")
-    public String studInfo(@RequestParam String tag, @RequestParam String subject, Model model){
+    public String studInfo(@RequestParam String tag, @RequestParam String subject, Model model) {
         AttendanceDAO attendanceDAO = new AttendanceDAO();
 
         StaticMapHolder.mapInsert();
@@ -92,7 +92,7 @@ public class StudentController {
 
     @PostMapping("/insertskip")
     public String insertSkipCount(@RequestParam String studentName, @RequestParam String tag,
-                                  @RequestParam String subject, Model model) { //todo 2 students with equals names in diff groups
+                                  @RequestParam String subject, Model model) {
         Student student = studentRepository.findByUsername(studentName);
         AttendanceDAO attendanceDAO = new AttendanceDAO();
 
@@ -100,7 +100,7 @@ public class StudentController {
             StaticMapHolder.mapInsert();
             String result = StaticMapHolder.immutableMap.get(subject);
             model.addAttribute("subject", subject);
-            attendanceDAO.incrementSkipCount(studentName, result);
+            attendanceDAO.incrementSkipCount(studentName, tag, result);
             Map<String, Integer> attendanceDataStudent = attendanceDAO.getAttendanceByTag(tag, result);
             model.addAttribute("attendanceDataStudent", attendanceDataStudent);
             model.addAttribute("tag", tag);
@@ -110,14 +110,15 @@ public class StudentController {
 
     @PostMapping("/deleteskip")
     public String deleteSkipCount(@RequestParam String studentName, @RequestParam String tag,
-                                  @RequestParam String subject, Model model) { //todo 2 students with equals names in diff groups
+                                  @RequestParam String subject, Model model) {
         Student student = studentRepository.findByUsername(studentName);
         AttendanceDAO attendanceDAO = new AttendanceDAO();
+
         if (student != null) {
             StaticMapHolder.mapInsert();
             String result = StaticMapHolder.immutableMap.get(subject);
             model.addAttribute("subject", subject);
-            attendanceDAO.decrementSkipCount(studentName, result);
+            attendanceDAO.decrementSkipCount(studentName, tag, result);
             Map<String, Integer> attendanceDataStudent = attendanceDAO.getAttendanceByTag(tag, result);
             model.addAttribute("attendanceDataStudent", attendanceDataStudent);
             model.addAttribute("tag", tag);

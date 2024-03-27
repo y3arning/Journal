@@ -3,6 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Группы</title>
+    <script>
+        function checkSelection() {
+            var groupSelect = document.getElementById("group-select");
+            var subjectSelect = document.getElementById("subject-select");
+            var submitButton = document.getElementById("submit-button");
+
+            if (groupSelect.value === "" || subjectSelect.value === "") {
+                submitButton.disabled = true;
+            } else {
+                submitButton.disabled = false;
+            }
+        }
+    </script>
     <style>
         header {
             background: linear-gradient(to right, #29244d, #210711);
@@ -93,13 +106,13 @@
 </header>
 <form action="/stud-info" method="post" th:action="@{/stud-info}">
     <div>
-        <select name="tag" id="group-select">
+        <select name="tag" id="group-select" onchange="checkSelection()">
             <option value="" disabled selected>Группа</option>
             <option value="ЭПБ-312">ЭПБ-312</option>
         </select>
     </div>
     <div>
-        <select name="subject" id="subject-select">
+        <select name="subject" id="subject-select" onchange="checkSelection()">
             <option value="" disabled selected>Предмет</option>
             <option value="Математика">Математика</option>
             <option value="Программирование">Программирование</option>
@@ -107,7 +120,7 @@
         </select>
     </div>
     <div>
-        <input type="submit" value="Посещаемость">
+        <input type="submit" id="submit-button" value="Посещаемость" disabled>
     </div>
 </form>
 </body>

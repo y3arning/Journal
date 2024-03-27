@@ -87,6 +87,25 @@
         .register-link:hover {
             color: #d3d3d3;
         }
+        .error-message {
+            color: red;
+            font-size: 20px;
+            animation: shake 0.5s;
+            margin-top: 10px;
+            position: absolute;
+            bottom: 600px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translateX(5px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+        }
     </style>
 </head>
 <body>
@@ -104,6 +123,17 @@
         <input type="submit" value="Войти">
         <a class="register-link" href="/registration">Регистрация</a>
     </div>
+    <div th:if="${param.error}" class="error-message">
+        <p> Данные неверны</p>
+    </div>
 </form>
+<script>
+    setTimeout(function() {
+        var errorMessage = document.querySelector('.error-message');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+    }, 2000);
+</script>
 </body>
 </html>

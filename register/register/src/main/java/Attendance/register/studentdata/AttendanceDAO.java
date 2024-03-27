@@ -1,10 +1,6 @@
 package Attendance.register.studentdata;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -50,15 +46,15 @@ public class AttendanceDAO {
     }
 
 
-    public void incrementSkipCount(String studentName, String subject) {
+    public void incrementSkipCount(String studentName, String tag, String subject) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            String studentIdSql = "SELECT id FROM students WHERE username = ?";
+            String studentIdSql = "SELECT id FROM students WHERE username = ? AND tag = ?";
             try (PreparedStatement studentIdStatement = connection.prepareStatement(studentIdSql)) {
                 studentIdStatement.setString(1, studentName);
+                studentIdStatement.setString(2, tag);
                 try (ResultSet resultSet = studentIdStatement.executeQuery()) {
                     if (resultSet.next()) {
                         UUID studentId = resultSet.getObject("id", UUID.class);
-
                         String updateSql = "UPDATE subject SET " + subject + " = " + subject + " + 1 WHERE student_id = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
                             updateStatement.setObject(1, studentId);
@@ -73,12 +69,12 @@ public class AttendanceDAO {
     }
 
 
-
-    public void decrementSkipCount(String studentName, String subject) {
+    public void decrementSkipCount(String studentName, String tag, String subject) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            String studentIdSql = "SELECT id FROM students WHERE username = ?";
+            String studentIdSql = "SELECT id FROM students WHERE username = ? AND tag = ?";
             try (PreparedStatement studentIdStatement = connection.prepareStatement(studentIdSql)) {
                 studentIdStatement.setString(1, studentName);
+                studentIdStatement.setString(2, tag);
                 try (ResultSet resultSet = studentIdStatement.executeQuery()) {
                     if (resultSet.next()) {
                         UUID studentId = resultSet.getObject("id", UUID.class);
@@ -97,24 +93,22 @@ public class AttendanceDAO {
         }
     }
 
-    public String findStudent(String username) {
-        String tag = "";
+    public String findStudent(String username, String tag) {
+        String selectedTag = "";
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            String sql = "SELECT tag FROM students WHERE username = ?";
+            String sql = "SELECT tag FROM students WHERE username = ? AND tag = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, username);
+                preparedStatement.setString(2, tag);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        tag = resultSet.getString("tag");
+                        selectedTag = resultSet.getString("tag");
                     }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return tag;
+        return selectedTag;
     }
-
-
-
 }
