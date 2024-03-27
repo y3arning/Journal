@@ -33,23 +33,24 @@ public class StudentController {
         return "student-add";
     }
 
-    @PostMapping("/st-add-form") //todo обработать ифы
-    public String addStudent(Student student) {
+    @PostMapping("/st-add-form")
+    public String addStudent(Student student, Model model) {
 
         AttendanceDAO attendanceDAO = new AttendanceDAO();
         String studentTag = attendanceDAO.findStudent(student.getUsername());
 
-        if (Objects.equals(studentTag, student.getTag())) {
-            System.out.println("exist");
+        if (!studentTag.isEmpty() && Objects.equals(studentTag, student.getTag())) {
+            model.addAttribute("error_student", "Даннный студент уже добавлен.");
             return "student-add";
         }
 
         if(student.getUsername().isEmpty() || student.getTag().isEmpty()){
-            System.out.println("empty");
+            model.addAttribute("error_null", "Поля группа и ФИО должны быть заполнены.");
             return "student-add";
         }
 
         studentRepository.save(student);
+        model.addAttribute("success", "Студент добавлен.");
 
         Subject subject = new Subject();
         subject.setStudentId(student.getId());
@@ -59,7 +60,7 @@ public class StudentController {
 
         subjectRepository.save(subject);
 
-        return "redirect:/student-add";
+        return "student-add";
     }
 
     @GetMapping("/information")

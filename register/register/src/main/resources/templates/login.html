@@ -6,19 +6,47 @@
     <style>
         body {
             background: #422e39;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background: linear-gradient(to right, #29244d, #210711);
+            text-align: center;
+            padding: 20px;
+            border-radius: 20px;
+            color: white;
+            margin-top: 0;
+        }
+        header button {
+            font-weight: 700;
+            padding: 10px 20px;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: 0.3s;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        header button:hover {
+            background-color: #422e39;
+            color: white;
         }
         form {
-            background: linear-gradient(to right, #29244d, #210711);;
+            background: linear-gradient(to right, #29244d, #210711);
             border-radius: 20px;
             padding: 20px;
             text-align: center;
             max-width: 300px;
             width: 100%;
+            margin: 0 auto;
+            padding: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 15vh;
+            flex-direction: column;
         }
         input[type="text"],
         input[type="password"] {
@@ -53,8 +81,8 @@
             text-decoration: none;
             cursor: pointer;
             transition: 0.3s;
-            margin-right: -100px;
             font-size: 16px;
+            margin-left: 10px;
         }
         .register-link:hover {
             color: #d3d3d3;
@@ -63,6 +91,7 @@
 </head>
 <body>
 <header>
+    <button onclick="document.location='/'">Домашняя страница</button>
 </header>
 <form th:action="@{/login}" method="post">
     <div>

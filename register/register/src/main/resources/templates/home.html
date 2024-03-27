@@ -19,11 +19,9 @@
             display: flex;
             justify-content: center;
         }
-
         .logout-container {
             margin-left: auto;
         }
-
         button {
             font-weight: 700;
             padding: 10px 20px;
@@ -36,7 +34,6 @@
             border-radius: 20px;
             font-size: 16px;
         }
-
         button[type="submit"] {
             padding: 10px 20px;
             background: transparent;
@@ -47,17 +44,17 @@
             border-radius: 20px;
             font-size: 16px;
         }
-
         button:hover {
             background-color: #422e39;
             color: white;
         }
-
         button[type="submit"]:hover {
             background-color: #422e39;
             color: white;
         }
-
+        .auth-button {
+            margin-right: auto;
+        }
         body {
             background: #422e39;
             margin: 0;
@@ -67,12 +64,11 @@
 </head>
 <body>
 <header>
+    <button class="auth-button" onclick="document.location='/login'">Авторизация</button>
     <div class="buttons-container">
-<!--        <button onclick="document.location='/login'">Авторизация</button>-->
         <button onclick="document.location='/information'">Посещаемость</button>
         <button onclick="document.location='/student-add'">Добавить студента</button>
     </div>
-
     <div class="logout-container">
         <form th:action="@{/logout}" method="post">
             <button type="submit">Выйти</button>

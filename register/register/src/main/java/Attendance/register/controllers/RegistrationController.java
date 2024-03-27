@@ -30,7 +30,7 @@ public class RegistrationController {
         }
 
         if(user.getUsername().isEmpty() || user.getPassword().isEmpty()){
-            model.addAttribute("error_login","Поля логин и пароль должны быть заполнены");
+            model.addAttribute("error_null","Поля логин и пароль должны быть заполнены");
             return "registration";
         }
 

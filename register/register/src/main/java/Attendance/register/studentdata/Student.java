@@ -56,11 +56,4 @@ public class Student {
         this.subjects = subjects;
     }
 
-    //    public int getSkip() {
-//        return skip;
-//    }
-//
-//    public void setSkip(int skip) {
-//        this.skip = skip;
-//    }
 }

@@ -6,11 +6,32 @@
     <style>
         body {
             background: #422e39;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background: linear-gradient(to right, #29244d, #210711);
+            text-align: center;
+            padding: 20px;
+            border-radius: 20px;
+            color: white;
+            margin-top: 0;
+        }
+        header button {
+            font-weight: 700;
+            padding: 10px 20px;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: 0.3s;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        header button:hover {
+            background-color: #422e39;
+            color: white;
         }
         form {
             background: linear-gradient(to right, #29244d, #210711);
@@ -19,7 +40,13 @@
             text-align: center;
             max-width: 300px;
             width: 100%;
-            position: relative;
+            margin: 0 auto;
+            padding: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 15vh;
+            flex-direction: column;
         }
         input[type="text"],
         input[type="password"] {
@@ -55,7 +82,7 @@
             animation: shake 0.5s;
             margin-top: 10px;
             position: absolute;
-            bottom: -70px;
+            bottom: 600px;
             left: 0;
             width: 100%;
             text-align: center;
@@ -68,9 +95,13 @@
             80% { transform: translateX(5px); }
             100% { transform: translateX(0); }
         }
+
     </style>
 </head>
 <body>
+<header>
+    <button onclick="document.location='/'">Домашняя страница</button>
+</header>
 <form action="/reg-form" method="post" th:action="@{/reg-form}">
     <div>
         <input type="text" name="username" placeholder="Логин">
