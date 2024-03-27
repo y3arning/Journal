@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Посещаемость</title>
+    <style>
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid white;
+            color: white;
+        }
+        th {
+            background-color: #29244d;
+        }
+        tr:nth-child(even) {
+            background-color: #210711;
+        }
+        tr:nth-child(odd) {
+            background-color: #210711;
+        }
+        header {
+            background: linear-gradient(to right, #29244d, #210711);
+            text-align: center;
+            padding: 20px;
+            border-radius: 20px;
+            color: white;
+            margin-top: 0;
+        }
+        header button {
+            font-weight: 700;
+            padding: 10px 20px;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: 0.3s;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        header button:hover {
+            background-color: #422e39;
+            color: white;
+        }
+        body {
+            background: #422e39;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .plus-button {
+          background-color: red;
+          color: white;
+          border: none;
+          padding: 5px 10px;
+          border-radius: 5px;
+        }
+        .minus-button {
+          background-color: green;
+          color: white;
+          border: none;
+          padding: 5px 10px;
+          border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <button onclick="document.location='/'">Домашняя страница</button>
+</header>
+<table>
+    <thead>
+    <tr>
+        <th>Группа</th>
+        <th>Предмет</th>
+        <th>ФИО</th>
+        <th>Кол-во пропусков</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entry : ${attendanceDataStudent}">
+        <td th:text="${tag}"></td>
+        <td th:text="${subject}"></td>
+        <td th:text="${entry.key}"></td>
+        <td th:id="${entry.key + '_count'}" th:text="${entry.value}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -111,4 +111,22 @@ public class AttendanceDAO {
         }
         return selectedTag;
     }
+
+    public String getUserRole(String username) {
+        String role = "";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            String sql = "SELECT role FROM usr WHERE username = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, username);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        role = resultSet.getString("role");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return role;
+    }
 }

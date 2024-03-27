@@ -26,18 +26,21 @@ public class StudentController {
     private StudentRepository studentRepository;
     @Autowired
     private SubjectRepository subjectRepository;
-
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    AttendanceDAO attendanceDAO = new AttendanceDAO();
 
     @GetMapping("/student-add")
     public String student() {
-        return "student-add";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        if (Objects.equals(attendanceDAO.getUserRole(username), "admin")){
+            return "student-add";
+        }
+        return "home";
     }
 
     @PostMapping("/st-add-form")
     public String addStudent(Student student, Model model) {
 
-        AttendanceDAO attendanceDAO = new AttendanceDAO();
         String studentTag = attendanceDAO.findStudent(student.getUsername(), student.getTag());
         if (!studentTag.isEmpty() && Objects.equals(studentTag, student.getTag())) {
             model.addAttribute("error_student", "Даннный студент уже добавлен.");
@@ -77,7 +80,6 @@ public class StudentController {
 
     @PostMapping("/stud-info")
     public String studInfo(@RequestParam String tag, @RequestParam String subject, Model model) {
-        AttendanceDAO attendanceDAO = new AttendanceDAO();
 
         StaticMapHolder.mapInsert();
         String result = StaticMapHolder.immutableMap.get(subject);
@@ -87,14 +89,18 @@ public class StudentController {
         model.addAttribute("attendanceDataStudent", attendanceDataStudent);
         model.addAttribute("tag", tag);
 
-        return "attendance";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        if (Objects.equals(attendanceDAO.getUserRole(username), "admin")){
+            return "attendance";
+        }
+        return "user-attendance";
     }
 
     @PostMapping("/insertskip")
     public String insertSkipCount(@RequestParam String studentName, @RequestParam String tag,
                                   @RequestParam String subject, Model model) {
         Student student = studentRepository.findByUsername(studentName);
-        AttendanceDAO attendanceDAO = new AttendanceDAO();
 
         if (student != null) {
             StaticMapHolder.mapInsert();
@@ -112,7 +118,6 @@ public class StudentController {
     public String deleteSkipCount(@RequestParam String studentName, @RequestParam String tag,
                                   @RequestParam String subject, Model model) {
         Student student = studentRepository.findByUsername(studentName);
-        AttendanceDAO attendanceDAO = new AttendanceDAO();
 
         if (student != null) {
             StaticMapHolder.mapInsert();
