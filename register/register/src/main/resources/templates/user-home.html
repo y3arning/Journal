@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Домашняя страница</title>
+    <style>
+        header {
+            background: linear-gradient(to right, #29244d, #210711);
+            text-align: center;
+            padding: 20px;
+            border-radius: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .buttons-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        .logout-container {
+            margin-left: auto;
+        }
+        button {
+            font-weight: 700;
+            padding: 10px 20px;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: 0.3s;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        button[type="submit"] {
+            padding: 10px 20px;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #422e39;
+            color: white;
+        }
+        button[type="submit"]:hover {
+            background-color: #422e39;
+            color: white;
+        }
+        .auth-button {
+            margin-right: auto;
+        }
+        body {
+            background: #422e39;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+<header>
+
+    <button class="auth-button" onclick="document.location='/login'">Авторизация</button>
+    <div class="buttons-container">
+        <button onclick="document.location='/information'">Посещаемость</button>
+    </div>
+    <div class="logout-container">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Выйти</button>
+        </form>
+    </div>
+</header>
+</body>
+</html>

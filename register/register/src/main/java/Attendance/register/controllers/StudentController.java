@@ -30,12 +30,7 @@ public class StudentController {
 
     @GetMapping("/student-add")
     public String student() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        if (Objects.equals(attendanceDAO.getUserRole(username), "admin")){
-            return "student-add";
-        }
-        return "home";
+        return "student-add";
     }
 
     @PostMapping("/st-add-form")
@@ -69,12 +64,6 @@ public class StudentController {
     @GetMapping("/information")
     public String information() {
         return "information";
-    }
-
-
-    @GetMapping("/attendance")
-    public String attendance() {
-        return "attendance";
     }
 
 
