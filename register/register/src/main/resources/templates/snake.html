@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Snake</title>
+</head>
+<style>
+    body {
+    background: #422e39;
+    }
+    #game-area {
+        width: 400px;
+        height: 400px;
+        border: 1px solid black;
+        position: relative;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(to right, #29244d, #210711);
+    }
+    #start-button {
+        position: absolute;
+        top: 75%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 20px;
+        background: linear-gradient(to left, #29244d, #210711);
+        color: white;
+    }
+
+    .game-cell {
+        width: 20px;
+        height: 20px;
+        border: 1px solid grey;
+        box-sizing: border-box;
+        position: absolute;
+    }
+
+    .snake {
+        background-color: green;
+        border-radius: 25%;
+    }
+
+    .apple {
+        background-color: red;
+        border-radius: 50%;
+    }
+</style>
+<body>
+<div id="game-area"></div>
+<script>
+    var gameArea = document.getElementById('game-area');
+    var score = 0;
+    var cellSize = 20;
+    var gameSize = 20;
+    var snake = [{x: 0, y: 0}];
+    var direction = 'right';
+    var apple = {x: Math.floor(Math.random() * gameSize), y: Math.floor(Math.random() * gameSize)};
+    var interval;
+    function createCell(x, y, className) {
+        var cell = document.createElement('div');
+        cell.classList.add('game-cell');
+        cell.classList.add(className);
+        cell.style.left = (x * cellSize) + 'px';
+        cell.style.top = (y * cellSize) + 'px';
+        return cell;
+    }
+    function renderGame() {
+        gameArea.innerHTML = '';
+        snake.forEach(function (segment, index) {
+            var snakeCell = createCell(segment.x, segment.y, 'snake');
+            gameArea.appendChild(snakeCell);
+            if (index === snake.length - 1 && snake.length > 1) {
+                snakeCell.classList.add('collision');
+            }
+        });
+        var appleCell = createCell(apple.x, apple.y, 'apple');
+        gameArea.appendChild(appleCell);
+        var scoreElement = document.createElement('div');
+        scoreElement.classList.add('score');
+        scoreElement.innerText = 'Счет: ' + score;
+        scoreElement.style.position = 'fixed';
+        scoreElement.style.top = '-20px';
+        scoreElement.style.left = '10px';
+        scoreElement.style.color = 'white';
+        gameArea.appendChild(scoreElement);
+    }
+    function moveSnake() {
+        var head = Object.assign({}, snake[snake.length - 1]);
+        switch (direction) {
+            case 'up':
+                head.y--;
+                break;
+            case 'down':
+                head.y++;
+                break;
+            case 'left':
+                head.x--;
+                break;
+            case 'right':
+                head.x++;
+                break;
+        }
+        if (head.x < 0 || head.y < 0 || head.x >= gameSize || head.y >= gameSize || isCollision(head)) {
+            clearInterval(interval);
+            alert('Игра окончена! Счет: ' + score);
+            return;
+        }
+        snake.push(head);
+        if (head.x === apple.x && head.y === apple.y) {
+            score++;
+            apple = {x: Math.floor(Math.random() * gameSize), y: Math.floor(Math.random() * gameSize)};
+        } else {
+            snake.shift();
+        }
+        var scoreElement = document.getElementsByClassName('score')[0];
+        scoreElement.innerText = 'Счет: ' + score;
+        renderGame();
+    }
+    function isCollision(position) {
+        for (var i = 0; i < snake.length - 1; i++) {
+            if (snake[i].x === position.x && snake[i].y === position.y) {
+                return true;
+            }
+        }
+        return false;
+    }
+    var keyPressLock = false;
+    document.addEventListener('keydown', function (event) {
+    if (keyPressLock) {
+        return;
+    }
+    keyPressLock = true;
+    setTimeout(function() {
+        keyPressLock = false;
+    }, 100);
+    var newDirection = direction;
+    switch (event.keyCode) {
+        case 37:
+            if (direction !== 'right' && direction !== 'left') {
+                newDirection = 'left';
+            }
+            break;
+        case 38:
+            if (direction !== 'down' && direction !== 'up') {
+                newDirection = 'up';
+            }
+            break;
+        case 39:
+            if (direction !== 'left' && direction !== 'right') {
+                newDirection = 'right';
+            }
+            break;
+        case 40:
+            if (direction !== 'up' && direction !== 'down') {
+                newDirection = 'down';
+            }
+            break;
+    }
+    if (newDirection !== direction) {
+        direction = newDirection;
+    }
+});
+    function startGame() {
+        clearInterval(interval);
+        score = 0;
+        snake = [{x: 0, y: 0}];
+        direction = 'right';
+        apple = {x: Math.floor(Math.random() * gameSize), y: Math.floor(Math.random() * gameSize)};
+        renderGame();
+        interval = setInterval(moveSnake, 150);
+    }
+    document.getElementById('start-button').addEventListener('click', startGame);
+    renderGame();
+</script>
+<button  id="start-button" onclick="startGame()">Старт</button>
+</body>
+</html>

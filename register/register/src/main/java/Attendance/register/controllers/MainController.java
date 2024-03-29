@@ -23,6 +23,16 @@ public class MainController {
         return "user-home";
     }
 
+    @GetMapping("/snake")
+    public String snake() {
+        return "snake";
+    }
+
+    @GetMapping("/tetris")
+    public String tetris() {
+        return "tetris";
+    }
+
     @GetMapping("/login")
     public String add() {
         return "login";
