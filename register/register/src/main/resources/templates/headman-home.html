@@ -18,7 +18,7 @@
             flex: 1;
             display: flex;
             justify-content: center;
-            margin-right: 100px;
+            margin-right: 250px;
         }
         .logout-container {
             margin-left: auto;
@@ -66,6 +66,9 @@
 <body>
 <header>
     <button class="auth-button" onclick="document.location='/login'">Авторизация</button>
+    <form action="/notification" method="post" th:action="@{/notification}">
+        <button class="auth-button" onclick="document.location='/notifications'">Оповещения</button>
+    </form>
     <div class="buttons-container">
         <button onclick="document.location='/information'">Посещаемость</button>
     </div>

@@ -1,9 +1,7 @@
 package Attendance.register.studentdata;
 
 import java.sql.*;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.UUID;
+import java.util.*;
 
 public class AttendanceDAO {
     private static String URL;
@@ -147,4 +145,38 @@ public class AttendanceDAO {
         }
         return headmanId;
     }
+    public List<String[]> getNotification(String id) {
+
+        List<String[]> list = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            String sql = "SELECT information, student_name, subject, skips FROM notification WHERE headman_id = CAST(? AS uuid)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, id);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String[] att = new String[4];
+
+                        String name = resultSet.getString("student_name");
+                        att[0] = name;
+
+                        String subject = resultSet.getString("subject");
+                        att[1] = subject;
+
+                        int skipCount = resultSet.getInt("skips");
+                        att[2] = String.valueOf(skipCount);
+
+                        String information = resultSet.getString("information");
+                        att[3] = information;
+
+                        list.add(att);
+                    }
+                    Collections.reverse(list);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }

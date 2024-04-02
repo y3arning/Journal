@@ -1,7 +1,5 @@
 package Attendance.register.notificationdata;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -9,10 +7,8 @@ import java.util.UUID;
 @Table(name = "notification")
 public class Notification {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Column(name = "headman_id", nullable = false)
     private UUID headmanId;
@@ -21,6 +17,12 @@ public class Notification {
     private int skips;
     private String information;
 
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public UUID getHeadmanId() {
         return headmanId;
     }

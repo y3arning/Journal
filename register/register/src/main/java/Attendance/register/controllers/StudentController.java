@@ -91,6 +91,9 @@ public class StudentController {
         if (Objects.equals(attendanceDAO.getUserRole(username), "admin")){
             return "attendance";
         }
+        if (Objects.equals(attendanceDAO.getUserRole(username), "headman")){
+            return "headman-attendance";
+        }
         return "user-attendance";
     }
 
@@ -108,6 +111,11 @@ public class StudentController {
             model.addAttribute("attendanceDataStudent", attendanceDataStudent);
             model.addAttribute("tag", tag);
         }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        if (Objects.equals(attendanceDAO.getUserRole(username), "headman")){
+            return "headman-attendance";
+        }
         return "attendance";
     }
 
@@ -124,6 +132,11 @@ public class StudentController {
             Map<String, Integer> attendanceDataStudent = attendanceDAO.getAttendanceByTag(tag, result);
             model.addAttribute("attendanceDataStudent", attendanceDataStudent);
             model.addAttribute("tag", tag);
+        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        if (Objects.equals(attendanceDAO.getUserRole(username), "headman")){
+            return "headman-attendance";
         }
         return "attendance";
     }
