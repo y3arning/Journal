@@ -1,5 +1,7 @@
 package Attendance.register.controllers;
 
+import Attendance.register.notificationdata.Notification;
+import Attendance.register.notificationdata.NotificationRepository;
 import Attendance.register.studentdata.AttendanceDAO;
 import Attendance.register.studentdata.Student;
 import Attendance.register.studentdata.StudentRepository;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 
 @Controller
@@ -26,6 +30,10 @@ public class StudentController {
     private StudentRepository studentRepository;
     @Autowired
     private SubjectRepository subjectRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
+
     AttendanceDAO attendanceDAO = new AttendanceDAO();
 
     @GetMapping("/student-add")
@@ -113,6 +121,39 @@ public class StudentController {
             String result = StaticMapHolder.immutableMap.get(subject);
             model.addAttribute("subject", subject);
             attendanceDAO.decrementSkipCount(studentName, tag, result);
+            Map<String, Integer> attendanceDataStudent = attendanceDAO.getAttendanceByTag(tag, result);
+            model.addAttribute("attendanceDataStudent", attendanceDataStudent);
+            model.addAttribute("tag", tag);
+        }
+        return "attendance";
+    }
+
+    @PostMapping("/notify")
+    public String notify(HttpServletRequest request, Model model) {
+
+        String studentName = request.getParameter("studentName");
+        String tag = request.getParameter("tag");
+        String information = request.getParameter("information");
+        String subject = request.getParameter("subject");
+        int skips = Integer.parseInt(request.getParameter("skips"));
+
+        Student student = studentRepository.findByUsername(studentName);
+        if (student != null) {
+            UUID headmanId = attendanceDAO.getHeadmanId(tag);
+
+            Notification notification = new Notification();
+
+            notification.setHeadmanId(headmanId);
+            notification.setInformation(information);
+            notification.setStudentName(studentName);
+            notification.setSubject(subject);
+            notification.setSkips(skips);
+
+            notificationRepository.save(notification);
+
+            StaticMapHolder.mapInsert();
+            String result = StaticMapHolder.immutableMap.get(subject);
+            model.addAttribute("subject", subject);
             Map<String, Integer> attendanceDataStudent = attendanceDAO.getAttendanceByTag(tag, result);
             model.addAttribute("attendanceDataStudent", attendanceDataStudent);
             model.addAttribute("tag", tag);

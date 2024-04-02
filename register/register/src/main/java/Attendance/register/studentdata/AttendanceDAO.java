@@ -129,4 +129,22 @@ public class AttendanceDAO {
         }
         return role;
     }
+
+    public UUID getHeadmanId(String tag){
+        UUID headmanId = null;
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            String headmanIdSql = "SELECT id FROM usr WHERE username = ?";
+            try (PreparedStatement headmanIdStatement = connection.prepareStatement(headmanIdSql)) {
+                headmanIdStatement.setString(1, tag);
+                try (ResultSet resultSet = headmanIdStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        headmanId = resultSet.getObject("id", UUID.class);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return headmanId;
+    }
 }

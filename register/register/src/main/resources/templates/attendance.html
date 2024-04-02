@@ -83,11 +83,12 @@
         <th>Предмет</th>
         <th>ФИО</th>
         <th>Кол-во пропусков</th>
-        <th>Удалить/Добавить пропуск</th>
+        <th>Удалить/Добавить</th>
+        <th>Действия</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="entry : ${attendanceDataStudent}">
+    <tr th:each="entry, status : ${attendanceDataStudent}">
         <td th:text="${tag}"></td>
         <td th:text="${subject}"></td>
         <td th:text="${entry.key}"></td>
@@ -106,8 +107,33 @@
                 <input type="submit" value="+" class="plus-button">
             </form>
         </td>
+        <td>
+            <form class="notify-form" th:action="@{/notify}" method="post" style="display: inline-block; vertical-align: middle;">
+                <input type="hidden" name="studentName" th:value="${entry.key}"/>
+                <input type="hidden" name="tag" th:value="${tag}"/>
+                <input type="hidden" name="subject" th:value="${subject}"/>
+                <input type="hidden" name="skips" th:value="${entry.value}"/>
+                <input type="hidden" name="information" class="notification-message" value="">
+                <input type="submit" value="Оповестить" onclick="showMessagePrompt(event, this); return false;" class="minus-button">
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
 </body>
+<script>
+    function showMessagePrompt(event, button) {
+      event.preventDefault();
+      var form = button.closest('form');
+      var message = prompt("Введите сообщение:");
+
+      if (message !== null) {
+        form.querySelector(".notification-message").value = message;
+        form.submit();
+      }
+    }
+</script>
+
+
+
 </html>
