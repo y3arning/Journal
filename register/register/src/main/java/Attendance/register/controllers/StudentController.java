@@ -38,7 +38,12 @@ public class StudentController {
 
     @GetMapping("/student-add")
     public String student() {
-        return "student-add";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        if (Objects.equals(attendanceDAO.getUserRole(username), "admin")){
+            return "student-add";
+        }
+        return "redirect:/";
     }
 
     @PostMapping("/st-add-form")

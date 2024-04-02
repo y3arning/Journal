@@ -83,7 +83,7 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String add() {
+    public String login() {
         return "login";
     }
 
