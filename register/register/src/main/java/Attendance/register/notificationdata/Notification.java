@@ -16,6 +16,15 @@ public class Notification {
     private String subject;
     private int skips;
     private String information;
+    private int seen;
+
+    public int getSeen() {
+        return seen;
+    }
+
+    public void setSeen(int seen) {
+        this.seen = seen;
+    }
 
     public Long getId() {
         return id;

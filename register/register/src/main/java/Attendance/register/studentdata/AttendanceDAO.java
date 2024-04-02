@@ -128,12 +128,12 @@ public class AttendanceDAO {
         return role;
     }
 
-    public UUID getHeadmanId(String tag){
+    public UUID getHeadmanId(String username){
         UUID headmanId = null;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             String headmanIdSql = "SELECT id FROM usr WHERE username = ?";
             try (PreparedStatement headmanIdStatement = connection.prepareStatement(headmanIdSql)) {
-                headmanIdStatement.setString(1, tag);
+                headmanIdStatement.setString(1, username);
                 try (ResultSet resultSet = headmanIdStatement.executeQuery()) {
                     if (resultSet.next()) {
                         headmanId = resultSet.getObject("id", UUID.class);
@@ -178,6 +178,37 @@ public class AttendanceDAO {
         }
         return list;
     }
+
+    public int getSeen(String id) {
+        int seen = 0;
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            String seenSql = "SELECT COUNT(*) FROM notification WHERE headman_id = CAST(? AS UUID) AND seen = 0";
+            try (PreparedStatement seenStatement = connection.prepareStatement(seenSql)) {
+                seenStatement.setString(1, id);
+                try (ResultSet resultSet = seenStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        seen = resultSet.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return seen > 0 ? 0 : 1;
+    }
+
+    public void updateSeen(String id) {
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
+            String updateSql = "UPDATE notification SET seen = 1 WHERE headman_id = CAST(? AS UUID)";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+                updateStatement.setString(1, id);
+                updateStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

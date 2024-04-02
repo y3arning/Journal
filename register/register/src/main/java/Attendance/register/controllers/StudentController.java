@@ -161,6 +161,7 @@ public class StudentController {
             notification.setStudentName(studentName);
             notification.setSubject(subject);
             notification.setSkips(skips);
+            notification.setSeen(0);
 
             notificationRepository.save(notification);
 

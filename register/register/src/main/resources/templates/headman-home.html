@@ -72,7 +72,7 @@
 <header>
     <button class="auth-button" onclick="document.location='/login'">Авторизация</button>
     <form action="/notification" method="post" th:action="@{/notification}">
-        <button class="auth-button" onclick="document.location='/notifications'" th:classappend="${exists != null ? 'highlight-button' : ''}">Оповещения</button>
+        <button class="auth-button" onclick="document.location='/notifications'" th:classappend="${notSeen != null ? 'highlight-button' : ''}">Оповещения</button>
     </form>
     <div class="buttons-container">
         <button onclick="document.location='/information'">Посещаемость</button>

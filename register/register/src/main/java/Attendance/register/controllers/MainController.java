@@ -30,9 +30,10 @@ public class MainController {
             return "home";
         }
         if (Objects.equals(attendanceDAO.getUserRole(username), "headman")){
-            if (notificationRepository.count() > 0){
-                String exists = "exists";
-                model.addAttribute("exists", exists);
+
+            if (attendanceDAO.getSeen(attendanceDAO.getHeadmanId(username).toString()) == 0){
+                String notSeen = "notSeen";
+                model.addAttribute("notSeen", notSeen);
             }
             return "headman-home";
         }
@@ -47,6 +48,7 @@ public class MainController {
         List<String[]> list;
         list = attendanceDAO.getNotification(id);
         model.addAttribute("list", list);
+        attendanceDAO.updateSeen(id);
         return "notifications";
     }
 
