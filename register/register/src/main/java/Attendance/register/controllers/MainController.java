@@ -30,7 +30,10 @@ public class MainController {
             return "home";
         }
         if (Objects.equals(attendanceDAO.getUserRole(username), "headman")){
-
+            if (notificationRepository.count() > 0){
+                String exists = "exists";
+                model.addAttribute("exists", exists);
+            }
             return "headman-home";
         }
         return "user-home";

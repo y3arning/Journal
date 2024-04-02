@@ -61,13 +61,18 @@
             margin: 0;
             font-family: Arial, sans-serif;
         }
+        .highlight-button {
+            background-color: blue;
+            color: white;
+        }
+
     </style>
 </head>
 <body>
 <header>
     <button class="auth-button" onclick="document.location='/login'">Авторизация</button>
     <form action="/notification" method="post" th:action="@{/notification}">
-        <button class="auth-button" onclick="document.location='/notifications'">Оповещения</button>
+        <button class="auth-button" onclick="document.location='/notifications'" th:classappend="${exists != null ? 'highlight-button' : ''}">Оповещения</button>
     </form>
     <div class="buttons-container">
         <button onclick="document.location='/information'">Посещаемость</button>
@@ -78,5 +83,6 @@
         </form>
     </div>
 </header>
+
 </body>
 </html>
