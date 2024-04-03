@@ -41,7 +41,7 @@ public class MainController {
     }
 
     @PostMapping("/notification")
-    public String notification(Model model){
+    public synchronized String notification(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         String id = attendanceDAO.getHeadmanId(username).toString();
@@ -53,7 +53,7 @@ public class MainController {
     }
 
     @PostMapping("/deletenotification")
-    public String deleteNotification(@RequestParam String studentName, @RequestParam String subject,
+    public synchronized String deleteNotification(@RequestParam String studentName, @RequestParam String subject,
                                      @RequestParam String information, Model model){
 
         Notification notification = notificationRepository.findByStudentNameAndSubjectAndInformation(studentName,

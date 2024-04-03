@@ -32,7 +32,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/reg-form")
-    public String addUser(User user, Model model) {
+    public synchronized String addUser(User user, Model model) {
 
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
@@ -48,7 +48,7 @@ public class RegistrationController {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setActive(true);
-        user.setRole("user");
+        user.setRole("headman");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 

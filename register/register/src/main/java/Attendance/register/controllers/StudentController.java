@@ -47,7 +47,7 @@ public class StudentController {
     }
 
     @PostMapping("/st-add-form")
-    public String addStudent(Student student, Model model) {
+    public synchronized String addStudent(Student student, Model model) {
 
         String studentTag = attendanceDAO.findStudent(student.getUsername(), student.getTag());
         if (!studentTag.isEmpty() && Objects.equals(studentTag, student.getTag())) {
@@ -81,7 +81,7 @@ public class StudentController {
 
 
     @PostMapping("/stud-info")
-    public String studInfo(@RequestParam String tag, @RequestParam String subject, Model model) {
+    public synchronized String studInfo(@RequestParam String tag, @RequestParam String subject, Model model) {
 
         StaticMapHolder.mapInsert();
         String result = StaticMapHolder.immutableMap.get(subject);
@@ -103,7 +103,7 @@ public class StudentController {
     }
 
     @PostMapping("/insertskip")
-    public String insertSkipCount(@RequestParam String studentName, @RequestParam String tag,
+    public synchronized String insertSkipCount(@RequestParam String studentName, @RequestParam String tag,
                                   @RequestParam String subject, Model model) {
         Student student = studentRepository.findByUsername(studentName);
 
@@ -125,7 +125,7 @@ public class StudentController {
     }
 
     @PostMapping("/deleteskip")
-    public String deleteSkipCount(@RequestParam String studentName, @RequestParam String tag,
+    public synchronized String deleteSkipCount(@RequestParam String studentName, @RequestParam String tag,
                                   @RequestParam String subject, Model model) {
         Student student = studentRepository.findByUsername(studentName);
 
@@ -147,7 +147,7 @@ public class StudentController {
     }
 
     @PostMapping("/notify")
-    public String notify(HttpServletRequest request, Model model) {
+    public synchronized String notify(HttpServletRequest request, Model model) {
 
         String studentName = request.getParameter("studentName");
         String tag = request.getParameter("tag");
