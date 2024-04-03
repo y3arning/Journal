@@ -3,7 +3,6 @@ package Attendance.register.controllers;
 import Attendance.register.notificationdata.Notification;
 import Attendance.register.notificationdata.NotificationRepository;
 import Attendance.register.studentdata.AttendanceDAO;
-import Attendance.register.studentdata.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
